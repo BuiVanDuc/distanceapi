@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-api = Blueprint('api_webservice', __name__)
+api = Blueprint('api_find_distance', __name__)
 
 from .distance import views

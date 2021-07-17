@@ -1,26 +1,12 @@
 # from flask_restful import marshal
-from flask_restplus import Resource, Api, marshal
-from sqlalchemy.orm.exc import NoResultFound
+from flask_restplus import Resource, Api
 
 from app.api import api
-# from .errors import errors
-# from .errors import errors
-from .serializers import ProfileSerializer
-from .services import ProfileService
-from app.helpers.json_respone import JsonReponse
-from app.models import Profile
-
-# from ...helpers.error_handlers import NotFoundError
 from ...helpers.error_handlers import NotFoundError, ServerError
 
 api = Api(api, doc="/docs")
 
-# api from methods below will have /my_api prefix which is defined here
-name_space = api.namespace("distance", description="API Profile")
-
-# Define the expected model (to validate the input)
-api_profile = ProfileSerializer(api)
-service = ProfileService()
+name_space = api.namespace("distance", description="API find distance")
 
 
 @api.errorhandler(NotFoundError)
@@ -35,10 +21,14 @@ def default_error_handler(error):
     return error.to_dict(), getattr(error, 'code', 500)
 
 
-@name_space.route("/")
-class ProfileCollection(Resource):
-    @api.response(200, "success")
-    @api.marshal_with(api_profile.model_response, envelope="distance")
-    def get(self):
-        """Get distance"""
-        return
+@name_space.route("/<str: address>")
+@api.response(404, "address does not exist")
+@api.param("address", "Input address")
+class ProfileItem(Resource):
+    @api.response(code=200, description='Success')
+    @api.response(code=404, description='Not Found')
+    def get(self, address):
+        """ Get distance by address"""
+        distance = 0
+        print()
+        return distance

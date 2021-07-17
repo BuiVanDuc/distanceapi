@@ -1,11 +1,8 @@
 from flask import Flask
-from flask_admin import Admin
 from flask_sqlalchemy import SQLAlchemy
 
 from config import config
-
 db = SQLAlchemy()
-web_admin = Admin(name='AI WEB')
 
 
 def create_app(config_name):
@@ -17,11 +14,6 @@ def create_app(config_name):
 
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
-
-    # Register web
-    from app.web import web as main_blueprint
-    app.register_blueprint(main_blueprint)
-    web_admin.init_app(app)
 
     # Register distance api
     from app.api import api as auth_blueprint
