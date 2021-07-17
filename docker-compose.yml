@@ -1,0 +1,30 @@
+version: '3.5'
+services:
+  postgres:
+    container_name: ai_postgres
+    image: postgres:12.6
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ai_web_app}
+      POSTGRES_USER: ${POSTGRES_USER:-techvico}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-be9eb75303cd7227f10dc9f6566160fd}
+      PGDATA: /data/postgres
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+  flaskapp:
+    container_name: ai_webservice
+    build: .
+    environment:
+      POSTGRES_URL: postgres
+      POSTGRES_USER: techvico
+      POSTGRES_PASSWORD: be9eb75303cd7227f10dc9f6566160fd
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ai_web_app
+    volumes:
+      - .:/opt/services/flaskapp/src
+    ports:
+      - "5000:5000"      
+    depends_on:
+      - postgres
