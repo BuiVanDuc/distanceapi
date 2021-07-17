@@ -1,4 +1,5 @@
 # from flask_restful import marshal
+import logging
 from flask_restplus import Resource, Api
 
 from app.api import api
