@@ -1,35 +1,20 @@
 
-# Foobar
+# DistanceAPI
 
-Foobar is a Python library for dealing with word pluralization.
+DistanceAPI is a flak app to find distance from any address to MKAD.
 
-## Installation
+## Run the application 
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+make docker-compose up to run application.
 
 ```bash
-pip install foobar
+docker-compose up -d
 ```
 
 ## Usage
 
-```python
-import foobar
+Access to swagger of the app and enter address in api for find distacne 
+- URL: http://127.0.0.1:5050/v1/docs
 
-# returns 'words'
-foobar.pluralize('word')
-
-# returns 'geese'
-foobar.pluralize('goose')
-
-# returns 'phenomenon'
-foobar.singularize('phenomena')
-```
-
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+## Result 
+Result is saved to .log file in `./app/logger/logs` folder

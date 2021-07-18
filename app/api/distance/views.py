@@ -7,7 +7,7 @@ from ...helpers.error_handlers import NotFoundError, ServerError
 
 api = Api(api, doc="/docs")
 
-name_space = api.namespace("distance", description="API find distance")
+name_space = api.namespace("distance_api", description="use api to find distance")
 
 
 @api.errorhandler(NotFoundError)
@@ -22,9 +22,9 @@ def default_error_handler(error):
     return error.to_dict(), getattr(error, 'code', 500)
 
 
-@name_space.route("/<str: address>")
+@name_space.route("/")
 @api.response(404, "address does not exist")
-@api.param("address", "Input address")
+@api.param("address", "Enter address here")
 class ProfileItem(Resource):
     @api.response(code=200, description='Success')
     @api.response(code=404, description='Not Found')
@@ -32,4 +32,4 @@ class ProfileItem(Resource):
         """ Get distance by address"""
         distance = 0
         print()
-        return distance
+        return {'distance': distance}
