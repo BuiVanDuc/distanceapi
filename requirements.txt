@@ -40,3 +40,4 @@ SQLAlchemy==1.3.22
 toml==0.10.2
 Werkzeug==0.16.1
 WTForms==2.3.3
+yandex-geocoder==2.0.0
