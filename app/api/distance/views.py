@@ -1,9 +1,9 @@
 # from flask_restful import marshal
-import logging
 from flask_restplus import Resource, Api
 
 from app.api import api
 from ...helpers.error_handlers import NotFoundError, ServerError
+from ...utils.yandex_utils import find_distance_from_somewhere_to_mkad
 
 api = Api(api, doc="/docs")
 
@@ -30,6 +30,5 @@ class ProfileItem(Resource):
     @api.response(code=404, description='Not Found')
     def get(self, address):
         """ Get distance by address"""
-        distance = 0
-        print()
+        distance = find_distance_from_somewhere_to_mkad(address)
         return {'distance': distance}

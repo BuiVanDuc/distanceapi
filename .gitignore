@@ -9,7 +9,7 @@ __pycache__/
 *.so
 
 # Logs
-app/logger/logs
+app/logs/*.log
 
 # Distribution / packaging
 .Python
