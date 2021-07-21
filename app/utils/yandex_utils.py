@@ -1,25 +1,39 @@
 from decimal import Decimal
-# from app.logger.logger import log
-from yandex_geocoder import Client
 from geopy.distance import geodesic
-
-from logger_utils import log
+from app.constant.mkad import MKAD_COORDINATE
+from app.constant.yandex import YANDEX_CLIENT
+from .logger_utils import logger
+from shapely.geometry import Point, Polygon
+from yandex_geocoder.exceptions import InvalidKey, NothingFound, UnexpectedResponse
 
 MKAD = (Decimal('37.632206'), Decimal('55.898947'))
-YANDEX_CLIENT = Client("af81ec10-d933-43fb-90f0-6157977e812d")
 
 
-def find_distance_from_somewhere_to_mkad(address: str):
-    distance = -1
-    if not address and len(address) == 0:
+def find_distance_to_mkad(address: str):
+    distance = 0
+    try:
+        coordinates = YANDEX_CLIENT.coordinates(address)
+        print(coordinates)
+        # Check the address is in MKAD or not
+        result = is_coordinate_in_mkad(coordinates)
+        if result:
+            logger.info("{} is inner MKAD")
+            return distance
+
+        distance = geodesic(MKAD, coordinates).km
+        print(distance)
+        logger.info("Distance from: {} to MKAD is: {} Km".format(address, distance))
         return distance
-    coordinates = YANDEX_CLIENT.coordinates(address)
-    distance = geodesic(MKAD, coordinates).km
-    log.info("Distance from: {} to MKD is: {}".format(address, distance))
-    print(distance)
-    return distance
+    except NothingFound:
+        return -1
+    except UnexpectedResponse:
+        return -2
+    except InvalidKey:
+        return -3
 
 
-if __name__ == '__main__':
-    address = "MKAD"
-    find_distance_from_somewhere_to_mkad("MKAD")
+def is_coordinate_in_mkad(coordinate: tuple):
+    point = Point(coordinate)
+    print(point)
+    poly = Polygon(MKAD_COORDINATE)
+    return point.within(poly)

@@ -4,12 +4,12 @@ import os
 from config import APP_DIR
 
 logs_dir = os.path.join(APP_DIR, "logs")
-file_name = os.path.join(logs_dir, "distance_api.log")
+file_name = os.path.join(logs_dir, "distance_search.log")
 
 logging.basicConfig(filename=file_name,
                     filemode='a',
                     format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                     datefmt='%H:%M:%S',
-                    level=logging.DEBUG)
+                    level=logging.INFO)
 
-log = logging.getLogger(name="distance_api")
+logger = logging.getLogger(name="distance_api")
