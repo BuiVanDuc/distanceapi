@@ -1,26 +1,28 @@
 from decimal import Decimal
 from geopy.distance import geodesic
-from app.constant.mkad import MKAD_COORDINATE
+from app.constant.mkad import MKAD_COORDINATES
 from app.constant.yandex import YANDEX_CLIENT
 from .logger_utils import logger
 from shapely.geometry import Point, Polygon
 from yandex_geocoder.exceptions import InvalidKey, NothingFound, UnexpectedResponse
 
-MKAD = (Decimal('37.632206'), Decimal('55.898947'))
-
 
 def find_distance_to_mkad(address: str):
-    distance = 0
+    if len(address) <= 0:
+        print("Invalid address input; Please enter specific address")
+        return None
     try:
+        distance = 0
         coordinates = YANDEX_CLIENT.coordinates(address)
         print(coordinates)
-        # Check the address is in MKAD or not
+        # Check the address is inner MKAD or not
         result = is_coordinate_in_mkad(coordinates)
         if result:
             logger.info("{} is inner MKAD")
             return distance
 
-        distance = geodesic(MKAD, coordinates).km
+        # Find distance
+        distance = find_shortest_distance_to_mkad(coordinates)
         print(distance)
         logger.info("Distance from: {} to MKAD is: {} Km".format(address, distance))
         return distance
@@ -33,7 +35,19 @@ def find_distance_to_mkad(address: str):
 
 
 def is_coordinate_in_mkad(coordinate: tuple):
+    if len(coordinate) <= 1:
+        print("Invalid coordinate; Right coordinate format: (lat, long)")
+        return False
     point = Point(coordinate)
-    print(point)
-    poly = Polygon(MKAD_COORDINATE)
+    poly = Polygon(MKAD_COORDINATES)
     return point.within(poly)
+
+
+def find_shortest_distance_to_mkad(coordinate: tuple):
+    # Init min distance
+    min_distance = geodesic(MKAD_COORDINATES[0], coordinate).km
+    for i in range(1, len(MKAD_COORDINATES) - 1):
+        distance = geodesic(MKAD_COORDINATES[i], coordinate).km
+        if distance > min_distance:
+            min_distance = distance
+    return min_distance
