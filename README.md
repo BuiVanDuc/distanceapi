@@ -8,7 +8,8 @@ DistanceAPI is a flak app to find distance from any address to MKAD.
 make docker-compose up to run application.
 
 ```bash
-docker-compose up -d
+docker-compose build
+docker-compose up
 ```
 
 ## Usage
@@ -16,5 +17,6 @@ docker-compose up -d
 Access to swagger of the app and enter address in api for find distacne 
 - URL: http://127.0.0.1:5050/v1/docs
 
-## Result 
-Result is saved to .log file in `./app/logger/logs` folder
+## Result
+- View direct result on swagger
+- Result is saved into .log file in `./app/logs` folder

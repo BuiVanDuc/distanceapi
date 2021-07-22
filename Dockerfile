@@ -6,9 +6,6 @@ COPY requirements.txt /opt/services/flaskapp/src/
 WORKDIR /opt/services/flaskapp/src
 RUN pip install -r requirements.txt
 COPY . /opt/services/flaskapp/src
-EXPOSE 5090
 ENV FLASK_APP=app_factory.py
 ENV FLASK_ENV=production
 CMD flask run -h 0.0.0.0 -p 5000
-#CMD python --version
-#&& flask run -h 0.0.0.0 -p 5000

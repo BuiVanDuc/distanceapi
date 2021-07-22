@@ -13,18 +13,16 @@ def find_distance_to_mkad(address: str):
         return None
     try:
         distance = 0
-        coordinates = YANDEX_CLIENT.coordinates(address)
-        print(coordinates)
+        coordinate = YANDEX_CLIENT.coordinates(address)
         # Check the address is inner MKAD or not
-        result = is_coordinate_in_mkad(coordinates)
+        result = is_coordinate_in_mkad(coordinate)
         if result:
-            logger.info("{} is inner MKAD")
+            logger.info("The {} is inner MKAD".format(address))
             return distance
 
         # Find distance
-        distance = find_shortest_distance_to_mkad(coordinates)
-        print(distance)
-        logger.info("Distance from: {} to MKAD is: {} Km".format(address, distance))
+        distance = find_shortest_distance_to_mkad(coordinate)
+        logger.info("Distance from: {} to MKAD is: {}Km".format(address, distance))
         return distance
     except NothingFound:
         return -1

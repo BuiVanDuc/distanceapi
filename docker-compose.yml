@@ -3,13 +3,8 @@ services:
   flaskapp:
     container_name: distnace_api
     build: .
-    environment:
-      POSTGRES_URL: postgres
-      POSTGRES_USER: techvico
-      POSTGRES_PASSWORD: be9eb75303cd7227f10dc9f6566160fd
-      POSTGRES_PORT: 5432
-      POSTGRES_DB: ai_web_app
     volumes:
       - .:/opt/services/flaskapp/src
+      - ./app/logs/:/app/logs/distance.log
     ports:
       - "5050:5000"
